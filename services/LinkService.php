@@ -6,7 +6,7 @@ use chillerlan\QRCode\QRCode;
 
 class LinkService
 {
-    public static function checkUrl(?string $url): array
+    public function checkUrl(?string $url): array
     {
         if (!$url) {
             return [

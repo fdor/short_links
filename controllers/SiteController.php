@@ -39,7 +39,8 @@ class SiteController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $url = htmlspecialchars(Yii::$app->request->post('url'));
+        $service = Yii::createObject(LinkService::class);
 
-        return LinkService::checkUrl($url);
+        return $service->checkUrl($url);
     }
 }
