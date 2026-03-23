@@ -20,6 +20,7 @@ IndexAsset::register($this);
                 <?= Html::button('ОК', ['class' => 'btn btn-primary', 'id' => 'ok-button']) ?>
                 <div id="error"></div>
             <?php ActiveForm::end(); ?>
+            <div id="result"></div>
         </div>
     </div>
 </div>

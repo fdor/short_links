@@ -3,6 +3,7 @@
 namespace app\services;
 
 use chillerlan\QRCode\QRCode;
+use function PHPUnit\Framework\returnArgument;
 
 class LinkService
 {
@@ -15,16 +16,14 @@ class LinkService
             ];
         }
 
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        if (!$this->checkValidity($url)) {
             return [
                 'success' => false,
                 'message' => 'Ссылка не валидна'
             ];
         }
 
-        $headers = @get_headers($url);
-
-        if (!($headers && strpos($headers[0], '200'))) {
+        if (!$this->checkAvailable($url)) {
             return [
                 'success' => false,
                 'message' => 'Сайт не доступен'
@@ -37,7 +36,28 @@ class LinkService
 
         return [
             'success' => true,
-            'message' => '<img style="width:500px" src="' . $qrcode . '" />' . $shortLink,
+            'message' => 'Ok',
+            'qrcode' => $qrcode,
+            'link' => $shortLink,
         ];
+    }
+
+    private function checkValidity(string $url): bool
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function checkAvailable(string $url): bool
+    {
+        $headers = @get_headers($url);
+        if ($headers && strpos($headers[0], '200')) {
+            return true;
+        }
+
+        return false;
     }
 }
