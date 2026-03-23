@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\services\LinkService;
-use chillerlan\QRCode\QRCode;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;

@@ -4,6 +4,11 @@ $(function() {
         var url = $('#url').val();
         error.html('');
 
+        if (!url) {
+            error.html('Введите ссылку');
+            return;
+        }
+
         $.post("/site/validate", {
             url: url,
             _csrf: yii.getCsrfToken()

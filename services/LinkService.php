@@ -31,7 +31,7 @@ class LinkService
             ];
         }
 
-        $shortLink = 'http://short.loc/' . md5($url);
+        $shortLink = 'http://short.loc/' . uniqid();
 
         $qrcode = (new QRCode())->render($shortLink);
 
