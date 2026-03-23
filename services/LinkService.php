@@ -2,7 +2,9 @@
 
 namespace app\services;
 
+use app\models\Link;
 use chillerlan\QRCode\QRCode;
+use yii\helpers\Url;
 use function PHPUnit\Framework\returnArgument;
 
 class LinkService
@@ -30,7 +32,8 @@ class LinkService
             ];
         }
 
-        $shortLink = 'http://short.loc/' . uniqid();
+        $shortLink = Url::base('http') . '/' . uniqid();
+        $this->saveLink($url, $shortLink);
 
         $qrcode = (new QRCode())->render($shortLink);
 
@@ -59,5 +62,13 @@ class LinkService
         }
 
         return false;
+    }
+
+    private function saveLink(string $url, string $shortLink): void
+    {
+        $link = new Link();
+        $link->url = $url;
+        $link->short = $shortLink;
+        $link->save();
     }
 }
