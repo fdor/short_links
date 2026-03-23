@@ -2,13 +2,11 @@
 
 namespace app\controllers;
 
+use app\services\LinkService;
+use chillerlan\QRCode\QRCode;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -25,12 +23,23 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
-     *
-     * @return string
+     * Displays homepage
      */
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Validate URL
+     *
+     * @return array
+     */
+    public function actionValidate(): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $url = htmlspecialchars(Yii::$app->request->post('url'));
+
+        return LinkService::checkUrl($url);
     }
 }

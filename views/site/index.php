@@ -1,16 +1,25 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var Link $model */
 
-$this->title = 'My Yii Application';
+use app\assets\IndexAsset;
+use app\models\Link;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+$this->title = '';
+
+IndexAsset::register($this);
 ?>
 <div class="site-index">
-
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
+        <div class="row justify-content-center" id="container">
+            <?php $form = ActiveForm::begin(); ?>
+                <?= Html::input('text', 'url', '', ['id' => 'url']) ?>
+                <?= Html::button('ОК', ['class' => 'btn btn-primary', 'id' => 'ok-button']) ?>
+                <div id="error"></div>
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
 </div>
