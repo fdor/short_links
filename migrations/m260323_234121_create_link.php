@@ -12,6 +12,8 @@ class m260323_234121_create_link extends Migration
             'short' => $this->string()->notNull(),
         ]);
 
+        $this->createIndex('idx_short', 'link', 'short');
+
         $this->createTable('log', [
             'id' => $this->primaryKey(),
             'link_id' => $this->integer()->notNull(),
