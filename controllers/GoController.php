@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\services\LinkService;
+use app\services\LogService;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -12,8 +13,10 @@ class GoController extends Controller
     /**
      * Statistics
      */
-    public function actionIndex($shortLink)
+    public function actionIndex($short)
     {
-        echo $shortLink;
+        $service = Yii::createObject(LogService::class);
+        $fullLink = $service->updateLog($short);
+        $this->redirect($fullLink);
     }
 }

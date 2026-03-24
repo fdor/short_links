@@ -5,7 +5,6 @@ namespace app\services;
 use app\models\Link;
 use chillerlan\QRCode\QRCode;
 use yii\helpers\Url;
-use function PHPUnit\Framework\returnArgument;
 
 class LinkService
 {
@@ -32,26 +31,21 @@ class LinkService
             ];
         }
 
-        $shortLink = Url::base('http') . '/go/' . uniqid();
-        $this->saveLink($url, $shortLink);
+        $link = $this->saveLink($url);
 
-        $qrcode = (new QRCode())->render($shortLink);
+        $qrcode = (new QRCode())->render($link->short);
 
         return [
             'success' => true,
             'message' => 'Ok',
             'qrcode' => $qrcode,
-            'link' => $shortLink,
+            'link' => $link->short,
         ];
     }
 
     private function checkValidity(string $url): bool
     {
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
-            return true;
-        }
-
-        return false;
+        return filter_var($url, FILTER_VALIDATE_URL);
     }
 
     private function checkAvailable(string $url): bool
@@ -64,11 +58,15 @@ class LinkService
         return false;
     }
 
-    private function saveLink(string $url, string $shortLink): void
+    private function saveLink(string $url): Link
     {
-        $link = new Link();
-        $link->url = $url;
-        $link->short = $shortLink;
-        $link->save();
+        if (!$link = Link::findOne(['url' => $url])) {
+            $link = new Link();
+            $link->url = $url;
+            $link->short = Url::base('http') . '/go/' . uniqid();
+            $link->save();
+        }
+
+        return $link;
     }
 }
