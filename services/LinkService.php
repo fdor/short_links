@@ -8,6 +8,13 @@ use yii\helpers\Url;
 
 class LinkService
 {
+    /**
+     * Handle link
+     *
+     * @param string|null $url
+     * @return array
+     * @throws \yii\db\Exception
+     */
     public function checkUrl(?string $url): array
     {
         if (!$url) {
@@ -43,11 +50,23 @@ class LinkService
         ];
     }
 
+    /**
+     * Check link validity
+     *
+     * @param string $url
+     * @return bool
+     */
     private function checkValidity(string $url): bool
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 
+    /**
+     * Check link is available
+     *
+     * @param string $url
+     * @return bool
+     */
     private function checkAvailable(string $url): bool
     {
         $headers = @get_headers($url);
@@ -58,6 +77,13 @@ class LinkService
         return false;
     }
 
+    /**
+     * Save link
+     *
+     * @param string $url
+     * @return Link
+     * @throws \yii\db\Exception
+     */
     private function saveLink(string $url): Link
     {
         if (!$link = Link::findOne(['url' => $url])) {
