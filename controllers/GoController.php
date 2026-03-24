@@ -16,7 +16,7 @@ class GoController extends Controller
     public function actionIndex($short)
     {
         $service = Yii::createObject(LogService::class);
-        $fullLink = $service->updateLog($short);
-        $this->redirect($fullLink);
+        $fullLink = $service->updateLog(htmlspecialchars($short));
+        $this->redirect($fullLink, 301);
     }
 }
