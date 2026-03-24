@@ -46,6 +46,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/go/<shortLink:\w+>' => 'go/index',
             ],
         ],
     ],

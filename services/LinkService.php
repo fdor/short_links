@@ -32,7 +32,7 @@ class LinkService
             ];
         }
 
-        $shortLink = Url::base('http') . '/' . uniqid();
+        $shortLink = Url::base('http') . '/go/' . uniqid();
         $this->saveLink($url, $shortLink);
 
         $qrcode = (new QRCode())->render($shortLink);
